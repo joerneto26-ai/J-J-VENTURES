@@ -1,0 +1,20 @@
+# Python & test files
+__pycache__/
+*.pyc
+test_*.py
+capture_*.py
+generate_*.py
+update_*.py
+
+# Temp Screenshots
+vista_*.png
+step*.png
+native_*.png
+calendly_*.png
+funnel_*.png
+email_client_*.png
+email_client_preview.html
+
+# Session files
+session-*.md
+*.zip
