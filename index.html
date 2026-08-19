@@ -168,12 +168,22 @@
       background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
       background-size: 24px 24px;
     }
+
+    /* Hide scrollbars for clean mobile carousel */
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 
 <body class="bg-brand-black text-slate-100 font-sans antialiased selection:bg-brand-cyan selection:text-black"
       x-data="{
         modalOpen: false,
+        mobileMenuOpen: false,
         activeSection: 'inicio',
         step: 1,
         totalSteps: 8,
@@ -342,9 +352,9 @@
       @keydown.escape.window="closeModal()">
 
   <!-- ========================================== -->
-  <!-- 1. NAVBAR (Sticky Glassmorphism + Scrollspy) -->
+  <!-- 1. NAVBAR (Sticky Glassmorphism + Mobile Menu) -->
   <!-- ========================================== -->
-  <header class="sticky top-0 z-40 w-full border-b border-white/10 bg-brand-black/80 backdrop-blur-md">
+  <header class="sticky top-0 z-40 w-full border-b border-white/10 bg-brand-black/85 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Logo -->
@@ -353,14 +363,14 @@
           J&J
         </div>
         <div class="flex flex-col">
-          <span class="font-display text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+          <span class="font-display text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
             VENTURES <span class="text-[10px] font-semibold bg-brand-cyan/20 text-brand-cyan px-1.5 py-0.5 rounded border border-brand-cyan/40">B2B</span>
           </span>
-          <span class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Prospección Outbound</span>
+          <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-slate-400">Prospección Outbound</span>
         </div>
       </a>
 
-      <!-- Navigation Links -->
+      <!-- Navigation Links (Desktop Only) -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
         <a href="#como-funciona" class="nav-link py-1 hover:text-white">Cómo funciona</a>
         <a href="#mecanismo" class="nav-link py-1 hover:text-white">El Mecanismo</a>
@@ -369,14 +379,63 @@
         <a href="#faq" class="nav-link py-1 hover:text-white">Preguntas</a>
       </nav>
 
-      <!-- CTA Button Navbar -->
-      <div class="flex items-center gap-3">
+      <!-- Desktop CTA Button -->
+      <div class="hidden md:flex items-center gap-3">
         <button @click="openModal()" class="btn-arq-primary px-5 py-2.5 text-sm">
           <i data-lucide="calendar" class="w-4 h-4"></i>
           <span>Solicitar Diagnóstico</span>
         </button>
       </div>
 
+      <!-- Mobile Hamburger Menu Button (AUREA Style) -->
+      <button @click="mobileMenuOpen = !mobileMenuOpen" 
+              class="md:hidden flex items-center justify-center w-11 h-11 rounded-xl bg-brand-cardDark/90 border border-white/20 text-white hover:border-brand-cyan transition-colors"
+              aria-label="Abrir menú de navegación">
+        <i data-lucide="menu" x-show="!mobileMenuOpen" class="w-5 h-5"></i>
+        <i data-lucide="x" x-show="mobileMenuOpen" class="w-5 h-5"></i>
+      </button>
+
+    </div>
+
+    <!-- Mobile Slide-Down Menu Drawer -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-3"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-3"
+         class="md:hidden border-t border-white/10 bg-brand-black/95 backdrop-blur-2xl px-6 py-6 space-y-4 shadow-2xl"
+         style="display: none;">
+      <nav class="flex flex-col space-y-2 text-base font-semibold text-slate-200">
+        <a @click="mobileMenuOpen = false" href="#como-funciona" class="py-2.5 px-3 rounded-xl hover:bg-white/5 hover:text-brand-cyan transition-colors flex items-center justify-between">
+          <span>Cómo funciona</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#mecanismo" class="py-2.5 px-3 rounded-xl hover:bg-white/5 hover:text-brand-cyan transition-colors flex items-center justify-between">
+          <span>El Mecanismo</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#para-quien" class="py-2.5 px-3 rounded-xl hover:bg-white/5 hover:text-brand-cyan transition-colors flex items-center justify-between">
+          <span>Para quién es</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#garantia" class="py-2.5 px-3 rounded-xl hover:bg-white/5 hover:text-brand-cyan transition-colors flex items-center justify-between">
+          <span>Garantía</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#faq" class="py-2.5 px-3 rounded-xl hover:bg-white/5 hover:text-brand-cyan transition-colors flex items-center justify-between">
+          <span>Preguntas Frecuentes</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </a>
+      </nav>
+
+      <div class="pt-3 border-t border-white/10">
+        <button @click="mobileMenuOpen = false; openModal()" class="btn-arq-primary w-full py-4 text-sm shadow-cyan-glow">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          <span>Solicitar Diagnóstico</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -491,14 +550,14 @@
         </p>
       </div>
 
-      <!-- 3 Steps Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- 3 Steps Cards: Carousel on Mobile, Grid on Desktop -->
+      <div class="flex overflow-x-auto snap-x snap-mandatory pb-4 gap-5 scrollbar-none md:grid md:grid-cols-3 md:gap-8 -mx-4 px-4 sm:mx-0 sm:px-0">
         
         <!-- Step 1 Card -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+        <div class="w-[85vw] sm:w-[340px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-7 sm:p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
           <div>
             <div class="text-xs font-bold uppercase tracking-widest text-brand-cyan mb-3">01 &middot; ANÁLISIS &amp; ICP</div>
-            <h3 class="font-display text-2xl font-bold text-brand-textDark mb-4">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-brand-textDark mb-4">
               Definimos a sus compradores ideales
             </h3>
             <p class="text-sm text-brand-textMuted leading-relaxed mb-8">
@@ -524,10 +583,10 @@
         </div>
 
         <!-- Step 2 Card -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+        <div class="w-[85vw] sm:w-[340px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-7 sm:p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
           <div>
             <div class="text-xs font-bold uppercase tracking-widest text-brand-cyan mb-3">02 &middot; MOTOR DE INFRAESTRUCTURA</div>
-            <h3 class="font-display text-2xl font-bold text-brand-textDark mb-4">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-brand-textDark mb-4">
               Mensajes que provocan interés genuino
             </h3>
             <p class="text-sm text-brand-textMuted leading-relaxed mb-8">
@@ -553,10 +612,10 @@
         </div>
 
         <!-- Step 3 Card -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+        <div class="w-[85vw] sm:w-[340px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-7 sm:p-8 shadow-card-light hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
           <div>
             <div class="text-xs font-bold uppercase tracking-widest text-brand-cyan mb-3">03 &middot; RESULTADO FINAL</div>
-            <h3 class="font-display text-2xl font-bold text-brand-textDark mb-4">
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-brand-textDark mb-4">
               Juntas programadas, en repetición
             </h3>
             <p class="text-sm text-brand-textMuted leading-relaxed mb-8">
@@ -582,6 +641,13 @@
 
       </div>
 
+      <!-- Mobile Swipe Indicator -->
+      <div class="flex items-center justify-center gap-2 text-xs font-semibold text-brand-cyan mt-6 md:hidden">
+        <i data-lucide="chevrons-left" class="w-3.5 h-3.5 opacity-60"></i>
+        <span>Desliza para ver los 3 pasos</span>
+        <i data-lucide="arrow-right" class="w-4 h-4 animate-pulse"></i>
+      </div>
+
     </div>
   </section>
 
@@ -604,10 +670,11 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <!-- 4 Phase Cards: Carousel on Mobile, Grid on Desktop -->
+      <div class="flex overflow-x-auto snap-x snap-mandatory pb-4 gap-4 scrollbar-none md:grid md:grid-cols-4 md:gap-6 -mx-4 px-4 sm:mx-0 sm:px-0">
         
         <!-- Phase 1 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
+        <div class="w-[82vw] sm:w-[280px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
           <div class="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-2">DÍAS 01 - 21</div>
           <div class="font-display text-3xl font-extrabold text-slate-300 mb-4">01</div>
           <h3 class="font-bold text-lg text-brand-textDark mb-2">Arquitectura &amp; Setup Técnico</h3>
@@ -617,7 +684,7 @@
         </div>
 
         <!-- Phase 2 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
+        <div class="w-[82vw] sm:w-[280px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
           <div class="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-2">DÍAS 21 - 60</div>
           <div class="font-display text-3xl font-extrabold text-slate-300 mb-4">02</div>
           <h3 class="font-bold text-lg text-brand-textDark mb-2">Lanzamiento &amp; Generación de Citas</h3>
@@ -627,7 +694,7 @@
         </div>
 
         <!-- Phase 3 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
+        <div class="w-[82vw] sm:w-[280px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
           <div class="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-2">DÍAS 60 - 90</div>
           <div class="font-display text-3xl font-extrabold text-slate-300 mb-4">03</div>
           <h3 class="font-bold text-lg text-brand-textDark mb-2">Optimización &amp; A/B Testing</h3>
@@ -637,7 +704,7 @@
         </div>
 
         <!-- Phase 4 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
+        <div class="w-[82vw] sm:w-[280px] md:w-auto shrink-0 md:shrink snap-center bg-white rounded-2xl border border-slate-200 p-6 shadow-card-light hover:shadow-card-hover transition-all duration-300">
           <div class="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-2">DÍAS 90+</div>
           <div class="font-display text-3xl font-extrabold text-slate-300 mb-4">04</div>
           <h3 class="font-bold text-lg text-brand-textDark mb-2">Canal Comercial Predecible</h3>
@@ -646,6 +713,13 @@
           </p>
         </div>
 
+      </div>
+
+      <!-- Mobile Swipe Indicator -->
+      <div class="flex items-center justify-center gap-2 text-xs font-semibold text-brand-cyan mt-6 md:hidden">
+        <i data-lucide="chevrons-left" class="w-3.5 h-3.5 opacity-60"></i>
+        <span>Desliza para ver el cronograma completo</span>
+        <i data-lucide="arrow-right" class="w-4 h-4 animate-pulse"></i>
       </div>
 
     </div>
