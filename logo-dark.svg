@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Left Tower -->
+  <polygon points="76,425 76,145 144,82 196,118 196,425" fill="#0F172A"/>
+  <!-- Left Tower Vertical Center Slit -->
+  <line x1="144" y1="92" x2="144" y2="425" stroke="#FFFFFF" stroke-width="6" stroke-linecap="square"/>
+  <!-- Left Tower Diagonal Slit -->
+  <line x1="90" y1="245" x2="128" y2="190" stroke="#FFFFFF" stroke-width="6" stroke-linecap="square"/>
+
+  <!-- Right Tower -->
+  <polygon points="316,425 316,118 368,82 436,145 436,425" fill="#0F172A"/>
+  <!-- Right Tower Vertical Center Slit -->
+  <line x1="368" y1="92" x2="368" y2="425" stroke="#FFFFFF" stroke-width="6" stroke-linecap="square"/>
+  <!-- Right Tower Diagonal Slit -->
+  <line x1="422" y1="245" x2="384" y2="190" stroke="#FFFFFF" stroke-width="6" stroke-linecap="square"/>
+
+  <!-- Center Latin Cross -->
+  <line x1="256" y1="310" x2="256" y2="425" stroke="#0F172A" stroke-width="4"/>
+  <line x1="226" y1="344" x2="286" y2="344" stroke="#0F172A" stroke-width="4"/>
+</svg>
